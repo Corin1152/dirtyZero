@@ -17,7 +17,7 @@ final class dirtyZeroManager: ObservableObject {
     
     // status information
     @Published var applyStatus: String = ""
-    @Published var applyShortStatus: String = "Ready to Apply!"
+    @Published var applyShortStatus: String = "Ready to Apply!".localized
     @Published var applyIcon: String = "checkmark.circle.fill"
     @Published var applyColor: Color = Color(.label).opacity(0.8)
     
@@ -56,37 +56,42 @@ final class dirtyZeroManager: ObservableObject {
             }
         }
         
+        // print 里的一律是技术日志，保持英文，便于对照上游排查问题
         if failedTweaksArray.isEmpty {
-            applyStatus = "Respring your device for changes to take effect."
-            applyShortStatus = "Successfully Applied!"
+            applyStatus = "Respring your device for changes to take effect.".localized
+            applyShortStatus = "Successfully Applied!".localized
             applyIcon = "checkmark.circle.fill"
             applyColor = .green
             
             print("[*] all tweaks applied successfully!")
-            Alertinator.shared.alert(title: "All tweaks applied successfully!", body: "Respring your device for changes take effect.", actionLabel: "Respring", action: {
+            Alertinator.shared.alert(title: "All tweaks applied successfully!".localized, body: "Respring your device for changes take effect.".localized, actionLabel: "Respring".localized, action: {
                 self.respringDevice()
             })
         } else {
-            applyStatus = "\(failedTweaks)/\(enabledTweaks) tweaks failed to apply. You can still respring to apply the tweaks that did succeed."
-            applyShortStatus = "Failed to Apply!"
+            applyStatus = L("%lld/%lld tweaks failed to apply. You can still respring to apply the tweaks that did succeed.", failedTweaks, enabledTweaks)
+            applyShortStatus = "Failed to Apply!".localized
             applyIcon = "xmark.circle.fill"
             applyColor = .red
             
             let names = failedTweaksArray.compactMap { $0.name }.joined(separator: ", ")
             print("[!] \(failedTweaks)/\(enabledTweaks) tweaks failed to apply: \(names)")
-            Alertinator.shared.alert(title: "\(failedTweaks)/\(enabledTweaks) tweaks failed to apply!", body: "The following tweaks failed to apply: \(names). Some tweaks did still apply though, so you can respring if you're ok with not having the mentioned tweaks. Check error logs for more detailed information.", actionLabel: "Respring", action: {
-                self.respringDevice()
-            })
+            Alertinator.shared.alert(
+                title: L("%lld/%lld tweaks failed to apply!", failedTweaks, enabledTweaks),
+                body: L("The following tweaks failed to apply: %@. Some tweaks did still apply though, so you can respring if you're ok with not having the mentioned tweaks. Check error logs for more detailed information.", names),
+                actionLabel: "Respring".localized,
+                action: {
+                    self.respringDevice()
+                })
         }
     }
     
     @MainActor func revertTweaks() {
-        Alertinator.shared.alert(title: "Device Will Reboot", body: "To revert all of your tweaks, your device must reboot. Would you like to do this now?", actionLabel: "Reboot", action: {
+        Alertinator.shared.alert(title: "Device Will Reboot".localized, body: "To revert all of your tweaks, your device must reboot. Would you like to do this now?".localized, actionLabel: "Reboot".localized, action: {
             do {
                 try zeroAtPath(path: "/usr/lib/dyld")
             } catch {
                 print("[!] failed to reboot device: \(error)")
-                Alertinator.shared.alert(title: "Failed to reboot device!", body: "\(error)")
+                Alertinator.shared.alert(title: "Failed to reboot device!".localized, body: String(describing: error))
             }
         })
     }
@@ -102,7 +107,7 @@ final class dirtyZeroManager: ObservableObject {
                 LSApplicationWorkspace.default().openApplication(withBundleID: "com.respring.app")
             } else {
                 print("[!] failed to find respringapp, aborting...")
-                Alertinator.shared.alert(title: "RespringApp Not Detected", body: "Make sure you have RespringApp installed, then try again.", actionLabel: "Respring Without RespringApp", action: {
+                Alertinator.shared.alert(title: "RespringApp Not Detected".localized, body: "Make sure you have RespringApp installed, then try again.".localized, actionLabel: "Respring Without RespringApp".localized, action: {
                     print("[*] attempting to respring device...")
                     self.showRespringView = true
                 })

@@ -47,23 +47,23 @@ struct SettingsView: View {
                         Button {
                             openURL(URL(string: "https://jailbreak.party")!)
                         } label: {
-                            ButtonLabel(text: "Website", icon: "globe")
+                                ButtonLabel(text: "Website".localized, icon: "globe")
+                            }
+                            .buttonStyle(TranslucentButtonStyle(color: .blue))
                         }
-                        .buttonStyle(TranslucentButtonStyle(color: .blue))
-                    }
-                } header: {
-                    HeaderLabel(text: "Info", icon: "info.circle")
-                } footer: {
+                    } header: {
+                        HeaderLabel(text: "Info".localized, icon: "info.circle")
+                    } footer: {
                     Text("This tool only supports iOS 16.0 - iOS 18.3.2 and is not persistent. Tweaks may revert after a few days, or if you reboot your device.")
                 }
                 
                 Section {
                     NavigationLink("Credits") {
                         List {
-                            LinkCreditCell(image: Image("skadz108"), name: "Skadz", description: "Original project creator, rewrote exploit in Swift.", url: "https://github.com/skadz108")
-                            LinkCreditCell(image: Image("lunginspector"), name: "lunginspector", description: "Rewrote dirtyZero, contributed tweaks, features, and UI.", url: "https://github.com/skadz108")
-                            LinkCreditCell(image: Image("ianbeer"), name: "Ian Beer (Gooogle Project Zero)", description: "Discovering & publishing CVE-2025-24203.", url: "https://project-zero.issues.chromium.org/issues/391518636")
-                            LinkCreditCell(image: Image("neonmodder123"), name: "neonmodder123", description: "Discovered WebView respring method.", url: "https://github.com/neonmodder123")
+                            LinkCreditCell(image: Image("skadz108"), name: "Skadz", description: "Original project creator, rewrote exploit in Swift.".localized, url: "https://github.com/skadz108")
+                            LinkCreditCell(image: Image("lunginspector"), name: "lunginspector", description: "Rewrote dirtyZero, contributed tweaks, features, and UI.".localized, url: "https://github.com/skadz108")
+                            LinkCreditCell(image: Image("ianbeer"), name: "Ian Beer (Google Project Zero)", description: "Discovering & publishing CVE-2025-24203.".localized, url: "https://project-zero.issues.chromium.org/issues/391518636")
+                            LinkCreditCell(image: Image("neonmodder123"), name: "neonmodder123", description: "Discovered WebView respring method.".localized, url: "https://github.com/neonmodder123")
                         }
                         .navigationTitle("Credits")
                     }
@@ -78,23 +78,24 @@ struct SettingsView: View {
                         TextField("Respring App BID", text: $respringAppBID)
                     }
                 } header: {
-                    HeaderLabel(text: "Applying", icon: "checkmark.seal")
+                    HeaderLabel(text: "Applying".localized, icon: "checkmark.seal")
                 }
                 
                 Section {
                     Toggle("Debug Settings", isOn: $enableDebugSettings)
                     Toggle("Risky Tweaks", isOn: $enableRiskyTweaks)
                 } header: {
-                    HeaderLabel(text: "Extras", icon: "plus")
+                    HeaderLabel(text: "Extras".localized, icon: "plus")
                 }
                 
-                Section(header: HeaderLabel(text: "Data", icon: "externaldrive")) {
+                Section(header: HeaderLabel(text: "Data".localized, icon: "externaldrive")) {
                     Button("Reset Selected Tweaks") {
                         tweakArray = TweakArray.tweaks
                     }
                     
                     Button("Remove Custom Tweaks", role: .destructive) {
-                        Alertinator.shared.alert(title: "Are you sure you'd like to remove all your tweaks?", body: "This will remove every tweak that you have created.", action: {
+                        Alertinator.shared.alert(title: "Are you sure you'd like to remove all your tweaks?".localized, body: "This will remove every tweak that you have created.".localized, action: {
+                            // "Custom Tweaks" 是持久化查找键，保持英文原文，不做本地化
                             let customTweaksIndex = tweakArray.firstIndex(where: { $0.name == "Custom Tweaks" }) ?? 0
                             
                             tweakArray[customTweaksIndex].tweaks.removeAll()
@@ -108,7 +109,7 @@ struct SettingsView: View {
                     Button {
                         dismiss()
                     } label: {
-                        CloseSheetLabel()
+                        CloseSheetLabel("Done".localized)
                     }
                 }
             }

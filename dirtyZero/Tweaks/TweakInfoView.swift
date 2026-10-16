@@ -35,17 +35,18 @@ struct TweakInfoView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: tweak.icon)
-                            Text(tweak.name)
+                            // Text(String) 走 verbatim 语义，不会自动查表，需显式本地化
+                            Text(tweak.name.localized)
                         }
                         
                         if tweakType == .custom {
-                            InfoBadge(text: "Custom", icon: "paintbrush", color: .purple)
+                            InfoBadge(text: "Custom".localized, icon: "paintbrush", color: .purple)
                         } else if tweakType == .risky {
-                            InfoBadge(text: "Risky", icon: "exclamationmark.triangle", color: .red)
+                            InfoBadge(text: "Risky".localized, icon: "exclamationmark.triangle", color: .red)
                         } else {
                             HStack {
                                 InfoBadge(
-                                    text: isTweakSupported ? "Supported" : "Unsupported",
+                                    text: (isTweakSupported ? "Supported" : "Unsupported").localized,
                                     icon: isTweakSupported ? "checkmark.seal" : "xmark.seal",
                                     color: isTweakSupported ? .green : .red
                                 )
@@ -60,7 +61,7 @@ struct TweakInfoView: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(.sectionInsets)
                 } header: {
-                    HeaderLabel(text: "Tweak Info", icon: "info.circle")
+                    HeaderLabel(text: "Tweak Info".localized, icon: "info.circle")
                 }
                 
                 Section {
@@ -79,7 +80,7 @@ struct TweakInfoView: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(.sectionInsets)
                 } header: {
-                    HeaderLabel(text: "Target Paths", icon: "character.cursor.ibeam")
+                    HeaderLabel(text: "Target Paths".localized, icon: "character.cursor.ibeam")
                 }
             }
             .listStyle(.plain)
@@ -89,7 +90,8 @@ struct TweakInfoView: View {
                 Button {
                     dismiss()
                 } label: {
-                    CloseSheetLabel()
+                    // iOS 19+ 显示 xmark 图标，iOS 18 及以下显示文字
+                    CloseSheetLabel("Done".localized)
                 }
             }
         }

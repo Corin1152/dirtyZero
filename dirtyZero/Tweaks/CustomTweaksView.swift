@@ -29,11 +29,11 @@ struct CustomTweaksView: View {
                             tweakName = "Hide Dock Background"
                             targetPaths = ["/System/Library/PrivateFrameworks/CoreMaterial.framework/dockDark.materialrecipe", "/System/Library/PrivateFrameworks/CoreMaterial.framework/dockLight.materialrecipe"]
                         }) {
-                            ButtonLabel(text: "Populate Fields", icon: "character.cursor.ibeam")
+                            ButtonLabel(text: "Populate Fields".localized, icon: "character.cursor.ibeam")
                         }
                         .buttonStyle(TranslucentButtonStyle(color: .purple))
                     } header: {
-                        HeaderLabel(text: "Debug", icon: "ant")
+                        HeaderLabel(text: "Debug".localized, icon: "ant")
                     }
                     .listRowInsets(.sectionInsets)
                     .listRowSeparator(.hidden)
@@ -51,7 +51,7 @@ struct CustomTweaksView: View {
                             Button {
                                 if targetPaths.contains(path2Add) {
                                     Haptic.shared.play(.heavy)
-                                    Alertinator.shared.alert(title: "Error!", body: "That path matches one or more paths that you have already included as a target path. Please try a different path.")
+                                    Alertinator.shared.alert(title: "Error!".localized, body: "That path matches one or more paths that you have already included as a target path. Please try a different path.".localized)
                                 } else {
                                     Haptic.shared.play(.soft)
                                     targetPaths.append(path2Add)
@@ -65,7 +65,7 @@ struct CustomTweaksView: View {
                         }
                     }
                 } header: {
-                    HeaderLabel(text: "Create Tweak", icon: "paintbrush")
+                    HeaderLabel(text: "Create Tweak".localized, icon: "paintbrush")
                 }
                 .listRowInsets(.sectionInsets)
                 .listRowSeparator(.hidden)
@@ -88,7 +88,7 @@ struct CustomTweaksView: View {
                                 }
                         }
                     } header: {
-                        HeaderLabel(text: "Target Paths", icon: "character.cursor.ibeam")
+                        HeaderLabel(text: "Target Paths".localized, icon: "character.cursor.ibeam")
                     }
                     .listRowInsets(.sectionInsets)
                     .listRowSeparator(.hidden)
@@ -104,7 +104,7 @@ struct CustomTweaksView: View {
                     tweakArray[customTweaksIndex].tweaks.append(ZeroTweak(name: tweakName, icon: "paintbrush", paths: targetPaths))
                     dismiss()
                 } label: {
-                    ButtonLabel(text: "Add Tweak", icon: "plus")
+                    ButtonLabel(text: "Add Tweak".localized, icon: "plus")
                 }
                 .buttonStyle(FancyButtonStyle(color: .purple))
                 .disabled(targetPaths.isEmpty || tweakName.isEmpty)
@@ -115,7 +115,7 @@ struct CustomTweaksView: View {
                     Button {
                         dismiss()
                     } label: {
-                        CloseSheetLabel("Cancel")
+                        CloseSheetLabel("Cancel".localized)
                     }
                 }
             }

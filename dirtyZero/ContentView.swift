@@ -131,7 +131,7 @@ struct ContentView: View {
         Section {
             VStack(alignment: .leading) {
                 HStack {
-                    TerminalHeader(text: mgr.applyShortStatus, icon: mgr.applyIcon, color: mgr.applyColor)
+                    TerminalHeader(text: mgr.applyShortStatus.localized, icon: mgr.applyIcon, color: mgr.applyColor)
                     Text("\(mgr.applyCurrentTweak)/\(mgr.enabledTweaks)")
                 }
                 if !mgr.applyStatus.isEmpty {
@@ -145,7 +145,7 @@ struct ContentView: View {
             }
             .modifier(SectionPlatter())
         } header: {
-            HeaderLabel(text: "Logs", icon: "terminal")
+            HeaderLabel(text: "Logs".localized, icon: "terminal")
         } footer: {
             Text("Made with love by the [jailbreak.party](https://jailbreak.party) team.\nJoin the jailbreak.party [discord!](https://jailbreak.party/discord)")
                 .font(.footnote)
@@ -178,11 +178,11 @@ struct ContentView: View {
                 tweakArray = TweakArray.tweaks
                 Haptic.shared.play(.heavy)
             } label: {
-                HeaderLabel(text: "Reset tweakArray", icon: "trash")
+                HeaderLabel(text: "Reset tweakArray".localized, icon: "trash")
             }
             .buttonStyle(TranslucentButtonStyle(color: .red))
         } header: {
-            HeaderLabel(text: "Debug", icon: "ant")
+            HeaderLabel(text: "Debug".localized, icon: "ant")
         }
         .listRowInsets(.sectionInsets)
     }
@@ -195,7 +195,7 @@ struct ContentView: View {
                         if section.isExpanded {
                             ForEach($section.tweaks) { $tweak in
                                 PlatterToggle(
-                                    text: tweak.name,
+                                    text: tweak.name.localized,
                                     icon: tweak.icon,
                                     color: Color(hex: section.hex),
                                     ignoreVrs: enableDebugSettings,
@@ -227,8 +227,11 @@ struct ContentView: View {
                             }
                         }
                     } header: {
+                        // 注意：HeaderDropdown 内部用 "isExpanded_\(text)" 作 @AppStorage 键，
+                        // 传入本地化文本后该键会随语言变化，仅导致分组展开状态回到默认值（展开），
+                        // 属于可接受的 UI 状态，不影响 tweak 本身。
                         HeaderDropdown(
-                            text: section.name,
+                            text: section.name.localized,
                             icon: section.icon,
                             isExpanded: $section.isExpanded,
                             useItemCount: true,
@@ -247,7 +250,7 @@ struct ContentView: View {
                 Haptic.shared.play(.soft)
                 mgr.applyTweaks(tweakData: tweakArray)
             } label: {
-                ButtonLabel(text: "Apply Tweaks", icon: "checkmark")
+                ButtonLabel(text: "Apply Tweaks".localized, icon: "checkmark")
             }
             .buttonStyle(FancyButtonStyle(color: .green))
             
@@ -256,7 +259,7 @@ struct ContentView: View {
                     Haptic.shared.play(.heavy)
                     mgr.revertTweaks()
                 } label: {
-                    ButtonLabel(text: "Revert", icon: "xmark")
+                    ButtonLabel(text: "Revert".localized, icon: "xmark")
                 }
                 .buttonStyle(FancyButtonStyle(color: .red))
                 
@@ -264,7 +267,7 @@ struct ContentView: View {
                     Haptic.shared.play(.soft)
                     mgr.respringDevice()
                 } label: {
-                    ButtonLabel(text: "Respring", icon: "goforward")
+                    ButtonLabel(text: "Respring".localized, icon: "goforward")
                 }
                 .buttonStyle(FancyButtonStyle(color: .orange))
             }

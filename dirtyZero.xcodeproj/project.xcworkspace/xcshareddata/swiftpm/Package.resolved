@@ -4,10 +4,10 @@
     {
       "identity" : "partyui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jailbreakdotparty/PartyUI",
+      "location" : "https://github.com/Corin1152/PartyUI",
       "state" : {
-        "revision" : "6ed5a26c5ddf16c00b786d781fa246c08442e8b8",
-        "version" : "1.1.0"
+        "branch" : "dirtyzero-zh-hans",
+        "revision" : "2077b03b22fdc1578828ff1d0375466e95d1bf85"
       }
     }
   ],
